@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  FaTrashArrowUp,
+  FaPenClip,
+  FaFile,
+  FaSnowflake,
+} from 'react-icons/fa6';
+
+import './index.css';
+
+import Header from './components/Header';
+import Main from './components/Main';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='border-4 border-red-500 h-screen md:w-[400px] mx-auto container md:border-2 md:border-blue-500'>
+
+      <Header />
+      <Main />
+      <Footer />
     </div>
   );
 }
