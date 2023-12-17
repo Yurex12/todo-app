@@ -19,8 +19,7 @@ function Task({ task: { task, completed, id } }) {
     editing: false,
     newTaskValue: task,
   });
-  // const [editing, setIsEdting] = useState(false);
-  // const [newTaskValue, setNewTaskValue] = useState(task);
+
   const { deleteTask, handleCompleted, handleEditing } = useTodos();
 
   return (
@@ -29,7 +28,7 @@ function Task({ task: { task, completed, id } }) {
         <textarea
           value={newTaskValue}
           className='flex-1 resize-none py-1 px-2 rounded-sm'
-          // onChange={(e) => setNewTaskValue(e.target.value)}
+
           onChange={(e) => dispacth({ type: 'task/newValue', payload: e.target.value })}
         />
       ) : (
@@ -41,7 +40,7 @@ function Task({ task: { task, completed, id } }) {
             onChange={() => handleCompleted(id)}
           />
           <p
-            className={`flex-1 bg-transparent p-1 font-semibold whitespace-pre-wrap ${
+            className={`flex-1 bg-transparent p-1 capitalize font-semibold whitespace-pre-wrap ${
               completed ? 'line-through' : ''
             }`}
           >

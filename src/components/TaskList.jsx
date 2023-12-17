@@ -21,6 +21,11 @@ function TaskList() {
   //   sortedTask = tasks.slice().sort((a, b) => a.task.localeCompare(b.task));
   // }
 
+
+  if (sortedTask.length === 0) {
+    return <p>Start by adding a new task</p>
+  }
+
   return (
     <>
       <h1 className='font-bold text-md text-gray-600 mt-8 '>My Tasks</h1>

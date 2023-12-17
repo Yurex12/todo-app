@@ -4,26 +4,15 @@ const TodoContext = createContext();
 
 const initialState = {
   tasks: [],
-  newTaskText: '',
   sortByValue: 'modified',
 };
 
 function render(state, { type, payload }) {
   switch (type) {
-    case 'task/value':
-      return {
-        ...state,
-        newTaskText: payload,
-      };
     case 'task/create':
-      if (state.newTaskText.length < 2) {
-        alert('Task must be at least three letters');
-        return state;
-      }
       return {
         ...state,
         tasks: [payload, ...state.tasks],
-        newTaskText: '',
       };
     case 'task/delete':
       return {
@@ -62,18 +51,21 @@ function render(state, { type, payload }) {
 
 function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(render, initialState);
-  const { tasks, newTaskText, sortByValue, sortedTask } = state;
+  const { tasks, sortByValue } = state;
 
-  function getText(e) {
-    dispatch({ type: 'task/value', payload: e.target.value });
-  }
+ 
 
-  function createTask(e) {
+  function createTask(e, inputtedValue) {
     e.preventDefault();
+
+    if (inputtedValue < 2) {
+      alert('Task must be at least three letters');
+      return;
+    }
 
     const newTask = {
       id: Date.now(),
-      task: newTaskText,
+      task: inputtedValue,
       completed: false,
     };
 
@@ -121,12 +113,10 @@ function TodoProvider({ children }) {
     <TodoContext.Provider
       value={{
         tasks,
-        getText,
         createTask,
         deleteTask,
         sortByValue,
         setSortByValue,
-        sortedTask,
         handleCompleted,
         handleEditing,
       }}
