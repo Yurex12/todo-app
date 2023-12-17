@@ -5,6 +5,7 @@ const TodoContext = createContext();
 const initialState = {
   tasks: [],
   newTaskText: '',
+  sortByValue: 'modified',
 };
 
 function render(state, { type, payload }) {
@@ -26,6 +27,7 @@ function render(state, { type, payload }) {
       };
     case 'task/delete':
       return {
+        ...state,
         tasks: state.tasks.filter((task) => task.id !== payload),
       };
     case 'tasks/fetch':
@@ -33,8 +35,25 @@ function render(state, { type, payload }) {
         ...state,
         tasks: payload,
       };
-    case 'SortTasks':
-      break;
+    case 'tasks/sort':
+      return { ...state, sortByValue: payload };
+    case 'task/completed':
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === payload ? { ...task, completed: !task.completed } : task
+        ),
+      };
+
+    case 'task/edit':
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === payload.taskId
+            ? { ...task, task: payload.newTaskValue }
+            : task
+        ),
+      };
 
     default:
       throw new Error('unknown action');
@@ -43,7 +62,7 @@ function render(state, { type, payload }) {
 
 function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(render, initialState);
-  const { tasks, newTaskText } = state;
+  const { tasks, newTaskText, sortByValue, sortedTask } = state;
 
   function getText(e) {
     dispatch({ type: 'task/value', payload: e.target.value });
@@ -71,6 +90,26 @@ function TodoProvider({ children }) {
     );
   }
 
+  function setSortByValue(e) {
+    dispatch({ type: 'tasks/sort', payload: e.target.value });
+  }
+
+  function handleCompleted(taskId) {
+    dispatch({ type: 'task/completed', payload: taskId });
+  }
+  function handleEditing(taskId, newTaskValue) {
+    dispatch({ type: 'task/edit', payload: { taskId, newTaskValue } });
+    console.log(taskId, newTaskValue);
+    localStorage.setItem(
+      'tasks',
+      JSON.stringify(
+        tasks.map((task) =>
+          task.id === taskId ? { ...task, task: newTaskValue } : task
+        )
+      )
+    );
+  }
+
   useEffect(() => {
     const storedValue = localStorage.getItem('tasks');
     const data = storedValue ? JSON.parse(storedValue) : [];
@@ -85,6 +124,11 @@ function TodoProvider({ children }) {
         getText,
         createTask,
         deleteTask,
+        sortByValue,
+        setSortByValue,
+        sortedTask,
+        handleCompleted,
+        handleEditing,
       }}
     >
       {children}
