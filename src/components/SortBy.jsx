@@ -7,7 +7,7 @@ function SortBy() {
       <label className='text-md font-semibold text-gray-800'>
         Sort By:
         <select
-          className=' border text-sm border-gray-400 px-1 rounded-md ml-2 text-gray-600'
+          className='select border text-sm border-gray-400 p-1 rounded-md ml-2 text-gray-600'
           value={sortByValue}
           onChange={(e) => setSortByValue(e)}
         >
