@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTodos } from '../contexts/TodoContext';
 
 function Form() {
   const [inputtedValue, setInputtedValue] = useState('');
   const { createTask } = useTodos();
+
+  const formEl = useRef(null);
+
+  useEffect(() => {
+    formEl.current.focus();
+  }, []);
 
   return (
     <div className='p-2 px-4 bg-white'>
@@ -12,14 +18,16 @@ function Form() {
       </p>
       <form
         className='py-2 flex gap-x-4 '
+       
         onSubmit={(e) => {
           createTask(e, inputtedValue);
           setInputtedValue('');
         }}
       >
         <input
-          className='w-full rounded-lg py-2 px-2 capitalize  bg-gray-200'
+          className='w-full rounded-lg py-2 px-2 bg-gray-200'
           placeholder='Start Typing...'
+          ref={formEl}
           value={inputtedValue}
           required
           onChange={(e) => setInputtedValue(e.target.value)}

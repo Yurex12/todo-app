@@ -1,6 +1,6 @@
 import { FaTrashArrowUp, FaPenClip, FaFile } from 'react-icons/fa6';
 import { useTodos } from '../contexts/TodoContext';
-import { useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 
 function reducer(state, { type, payload }) {
   switch (type) {
@@ -15,27 +15,26 @@ function reducer(state, { type, payload }) {
 }
 
 function Task({ task: { task, completed, id } }) {
+  const { deleteTask, handleCompleted, handleEditing } = useTodos();
   const [{ editing, newTaskValue }, dispacth] = useReducer(reducer, {
     editing: false,
     newTaskValue: task,
   });
 
-  const { deleteTask, handleCompleted, handleEditing } = useTodos();
-
-  const handleSave = (newTaskValue) => {
+  function handleSave(newTaskValue) {
     if (newTaskValue === '') {
-      alert('cannot be empty')
+      alert('cannot be empty');
       return;
     }
     dispacth({ type: 'task/edit' });
-  };
+  }
 
   return (
     <div className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'>
       {editing ? (
         <textarea
           value={newTaskValue}
-          className='flex-1 resize-none py-1 px-2 rounded-sm'
+          className='flex-1 resize-none py-1 capitalize px-2 rounded-sm'
           onChange={(e) =>
             dispacth({ type: 'task/newValue', payload: e.target.value })
           }
@@ -49,7 +48,7 @@ function Task({ task: { task, completed, id } }) {
             onChange={() => handleCompleted(id)}
           />
           <p
-            className={`flex-1 bg-transparent p-1 capitalize font-semibold whitespace-pre-wrap ${
+            className={`flex-1 bg-transparent p-1 capitalize text-gray-900 font-medium whitespace-pre-wrap ${
               completed ? 'line-through' : ''
             }`}
           >

@@ -53,12 +53,8 @@ function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(render, initialState);
   const { tasks, sortByValue } = state;
 
- 
-
   function createTask(e, inputtedValue) {
     e.preventDefault();
-
-  
 
     if (inputtedValue.length < 2) {
       alert('Task must be at least three letters');
@@ -90,9 +86,17 @@ function TodoProvider({ children }) {
 
   function handleCompleted(taskId) {
     dispatch({ type: 'task/completed', payload: taskId });
+
+    localStorage.setItem(
+      'tasks',
+      JSON.stringify(
+        state.tasks.map((task) =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        )
+      )
+    );
   }
   function handleEditing(taskId, newTaskValue) {
-
     dispatch({ type: 'task/edit', payload: { taskId, newTaskValue } });
     console.log(taskId, newTaskValue);
     localStorage.setItem(
