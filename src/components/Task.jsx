@@ -23,7 +23,7 @@ function Task({ task: { task, completed, id } }) {
   const { deleteTask, handleCompleted, handleEditing } = useTodos();
 
   return (
-    <li className='flex items-center space-x-2 p-3 rounded-xl bg-gray-200  shadow-lg'>
+    <li className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'>
       {editing ? (
         <textarea
           value={newTaskValue}
