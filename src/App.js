@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className=' h-screen w-full max-w-[500px] mx-auto flex flex-col  shadow-xl bg-white'>
+    <div className=' h-screen max-w-[500px] mx-auto flex flex-col  shadow-xl bg-white'>
       <Header />
             
       <TodoProvider>

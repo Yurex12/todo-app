@@ -6,6 +6,6 @@ body {
   @apply bg-gray-300;
 }
 
-::-webkit-scrollbar {
+body::-webkit-scrollbar, main::-webkit-scrollbar {
   @apply hidden;
 }

@@ -3,7 +3,7 @@ import { useTodos } from '../contexts/TodoContext';
 function SortBy() {
   const { sortByValue, setSortByValue } = useTodos();
   return (
-    <div className='mt-4 flex gap-x-2 px-2'>
+    <div className='flex gap-x-2 p-2 px-4'>
       <label className='text-md font-semibold text-gray-800'>
         Sort By:
         <select

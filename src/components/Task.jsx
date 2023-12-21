@@ -22,14 +22,23 @@ function Task({ task: { task, completed, id } }) {
 
   const { deleteTask, handleCompleted, handleEditing } = useTodos();
 
+  const handleSave = (newTaskValue) => {
+    if (newTaskValue === '') {
+      alert('cannot be empty')
+      return;
+    }
+    dispacth({ type: 'task/edit' });
+  };
+
   return (
-    <li className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'>
+    <div className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'>
       {editing ? (
         <textarea
           value={newTaskValue}
           className='flex-1 resize-none py-1 px-2 rounded-sm'
-
-          onChange={(e) => dispacth({ type: 'task/newValue', payload: e.target.value })}
+          onChange={(e) =>
+            dispacth({ type: 'task/newValue', payload: e.target.value })
+          }
         />
       ) : (
         <div className='flex flex-1 items-center space-x-2'>
@@ -52,16 +61,12 @@ function Task({ task: { task, completed, id } }) {
         {completed || (
           <div
             className='text-slate-700'
-            onClick={() => {
-              dispacth({ type: 'task/edit' });
-            }}
+            onClick={() => handleSave(newTaskValue)}
           >
             {editing ? (
               <FaFile
                 className='text-blue-700'
-                onClick={() => {
-                  handleEditing(id, newTaskValue);
-                }}
+                onClick={() => handleEditing(id, newTaskValue)}
               />
             ) : (
               <FaPenClip />
@@ -73,7 +78,7 @@ function Task({ task: { task, completed, id } }) {
           onClick={() => deleteTask(id)}
         />
       </div>
-    </li>
+    </div>
   );
 }
 

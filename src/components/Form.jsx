@@ -6,7 +6,7 @@ function Form() {
   const { createTask } = useTodos();
 
   return (
-    <div className='px-2'>
+    <div className='p-2 px-4 bg-white'>
       <p className='uppercase text-gray-500 font-semibold text-sm'>
         create a task
       </p>

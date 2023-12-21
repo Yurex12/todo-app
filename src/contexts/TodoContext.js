@@ -58,7 +58,9 @@ function TodoProvider({ children }) {
   function createTask(e, inputtedValue) {
     e.preventDefault();
 
-    if (inputtedValue < 2) {
+  
+
+    if (inputtedValue.length < 2) {
       alert('Task must be at least three letters');
       return;
     }
@@ -90,6 +92,7 @@ function TodoProvider({ children }) {
     dispatch({ type: 'task/completed', payload: taskId });
   }
   function handleEditing(taskId, newTaskValue) {
+
     dispatch({ type: 'task/edit', payload: { taskId, newTaskValue } });
     console.log(taskId, newTaskValue);
     localStorage.setItem(
