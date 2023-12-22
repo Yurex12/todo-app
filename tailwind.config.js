@@ -8,7 +8,11 @@ module.exports = {
       lg: '969px',
       xl: '1200px',
     },
-    extend: {},
+    extend: {
+      fontFamily : {
+        rubik : ['Rubik']
+      },
+    },
   },
   plugins: [],
 };
