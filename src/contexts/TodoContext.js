@@ -5,7 +5,6 @@ import {
   useEffect,
   useMemo,
 } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const TodoContext = createContext();
 

@@ -10,8 +10,7 @@ function User() {
   return (
     <div className='flex items-center gap-x-4 px-4 py-4'>
       <div className='w-12 h-12'>
-        {/* <img src='illustration.jpg' alt='hi' /> */}
-        <img src='logo512.png' alt='' className='w-full h-full' />
+        <img src='user.png' alt='' className='w-full h-full' />
       </div>
 
       <div className='flex-1 flex flex-col'>
@@ -19,8 +18,8 @@ function User() {
           <span> Hi,</span>
           <input
             type='text'
-            className='w-32 sm:w-1/2 border-0 capitalize placeholder:text-[12px] placeholder:text-gray-300 px-1'
-            placeholder='enter your nickname'
+            className='w-32 sm:w-1/2 border-0 placeholder:text-[12px] placeholder:text-gray-300 px-1'
+            placeholder='nickname'
             value={name}
             onChange={handleSetName}
           />
