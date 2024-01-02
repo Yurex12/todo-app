@@ -1,6 +1,6 @@
 import { FaTrashArrowUp, FaPenClip, FaFile } from 'react-icons/fa6';
 import { useTodos } from '../contexts/TodoContext';
-import { useEffect, useReducer, useRef } from 'react';
+import { useReducer } from 'react';
 
 function reducer(state, { type, payload }) {
   switch (type) {

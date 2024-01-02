@@ -1,9 +1,23 @@
-import { useContext, createContext, useReducer, useEffect } from 'react';
+import {
+  useContext,
+  createContext,
+  useReducer,
+  useEffect,
+  useMemo,
+} from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const TodoContext = createContext();
 
+const fetchData = () => {
+  const storedValue = localStorage.getItem('tasks');
+  const data = storedValue ? JSON.parse(storedValue) : [];
+
+  return data;
+};
+
 const initialState = {
-  tasks: [],
+  tasks: fetchData(),
   sortByValue: 'modified',
 };
 
@@ -19,11 +33,7 @@ function render(state, { type, payload }) {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== payload),
       };
-    case 'tasks/fetch':
-      return {
-        ...state,
-        tasks: payload,
-      };
+
     case 'tasks/sort':
       return { ...state, sortByValue: payload };
     case 'task/completed':
@@ -50,8 +60,11 @@ function render(state, { type, payload }) {
 }
 
 function TodoProvider({ children }) {
-  const [state, dispatch] = useReducer(render, initialState);
-  const { tasks, sortByValue } = state;
+  const [{ sortByValue, tasks }, dispatch] = useReducer(render, initialState);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   function createTask(e, inputtedValue) {
     e.preventDefault();
@@ -68,16 +81,10 @@ function TodoProvider({ children }) {
     };
 
     dispatch({ type: 'task/create', payload: newTask });
-    localStorage.setItem('tasks', JSON.stringify([newTask, ...tasks]));
   }
 
   function deleteTask(taskId) {
     dispatch({ type: 'task/delete', payload: taskId });
-
-    localStorage.setItem(
-      'tasks',
-      JSON.stringify(state.tasks.filter((task) => task.id !== taskId))
-    );
   }
 
   function setSortByValue(e) {
@@ -86,51 +93,25 @@ function TodoProvider({ children }) {
 
   function handleCompleted(taskId) {
     dispatch({ type: 'task/completed', payload: taskId });
-
-    localStorage.setItem(
-      'tasks',
-      JSON.stringify(
-        state.tasks.map((task) =>
-          task.id === taskId ? { ...task, completed: !task.completed } : task
-        )
-      )
-    );
   }
   function handleEditing(taskId, newTaskValue) {
     dispatch({ type: 'task/edit', payload: { taskId, newTaskValue } });
     console.log(taskId, newTaskValue);
-    localStorage.setItem(
-      'tasks',
-      JSON.stringify(
-        tasks.map((task) =>
-          task.id === taskId ? { ...task, task: newTaskValue } : task
-        )
-      )
-    );
   }
 
-  useEffect(() => {
-    const storedValue = localStorage.getItem('tasks');
-    const data = storedValue ? JSON.parse(storedValue) : [];
+  const value = useMemo(() => {
+    return {
+      tasks,
+      createTask,
+      deleteTask,
+      sortByValue,
+      setSortByValue,
+      handleCompleted,
+      handleEditing,
+    };
+  }, [sortByValue, tasks]);
 
-    dispatch({ type: 'tasks/fetch', payload: data });
-  }, []);
-
-  return (
-    <TodoContext.Provider
-      value={{
-        tasks,
-        createTask,
-        deleteTask,
-        sortByValue,
-        setSortByValue,
-        handleCompleted,
-        handleEditing,
-      }}
-    >
-      {children}
-    </TodoContext.Provider>
-  );
+  return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
 }
 
 function useTodos() {

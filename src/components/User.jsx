@@ -1,7 +1,7 @@
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function User() {
-  const [name, setName] = useLocalStorage('', 'name');
+  const { name, setName } = useLocalStorage('', 'name');
 
   const handleSetName = (e) => {
     setName(e.target.value);
@@ -10,7 +10,8 @@ function User() {
   return (
     <div className='flex items-center gap-x-4 px-4 py-4'>
       <div className='w-12 h-12'>
-        <img src='user.png' alt='' />
+        {/* <img src='illustration.jpg' alt='hi' /> */}
+        <img src='logo512.png' alt='' className='w-full h-full' />
       </div>
 
       <div className='flex-1 flex flex-col'>

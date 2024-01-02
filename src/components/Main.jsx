@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { useTodos } from '../contexts/TodoContext';
 import Form from './Form';
 import SortBy from './SortBy';
