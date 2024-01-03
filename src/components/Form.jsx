@@ -18,14 +18,13 @@ function Form() {
       </p>
       <form
         className='py-2 flex gap-x-4 '
-       
         onSubmit={(e) => {
           createTask(e, inputtedValue);
           setInputtedValue('');
         }}
       >
         <input
-          className='w-full rounded-lg py-2 px-2 bg-gray-200'
+          className='w-full rounded-lg py-2 px-2 bg-gray-200 '
           placeholder='Start Typing...'
           ref={formEl}
           value={inputtedValue}

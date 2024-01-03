@@ -1,7 +1,8 @@
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import user from '../images/user.png';
 
 function User() {
-  const { name, setName } = useLocalStorage('', 'name');
+  const [name, setName] = useLocalStorage('', 'name');
 
   const handleSetName = (e) => {
     setName(e.target.value);
@@ -10,7 +11,7 @@ function User() {
   return (
     <div className='flex items-center gap-x-4 px-4 py-4'>
       <div className='w-12 h-12'>
-        <img src='user.png' alt='' className='w-full h-full' />
+        <img src={user} alt='' className='w-full h-full' />
       </div>
 
       <div className='flex-1 flex flex-col'>
@@ -18,8 +19,8 @@ function User() {
           <span> Hi,</span>
           <input
             type='text'
-            className='w-32 sm:w-1/2 border-0 placeholder:text-[12px] placeholder:text-gray-300 px-1'
-            placeholder='nickname'
+            className='w-32 sm:w-1/2 border-0 placeholder:text-[10px] placeholder:text-gray-300 px-1'
+            placeholder='enter your nickname'
             value={name}
             onChange={handleSetName}
           />
