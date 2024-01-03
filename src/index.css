@@ -12,9 +12,3 @@ body::-webkit-scrollbar,
 main::-webkit-scrollbar {
   @apply hidden;
 }
-
-input,
-.select:focus,
-.select:active {
-  @apply border-0 border-blue-500;
-}
