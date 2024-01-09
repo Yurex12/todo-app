@@ -1,6 +1,7 @@
 import { FaTrashArrowUp, FaPenClip, FaFile } from 'react-icons/fa6';
 import { useTodos } from '../contexts/TodoContext';
-import { useReducer } from 'react';
+import { useReducer, useRef } from 'react';
+import toast from 'react-hot-toast';
 
 function reducer(state, { type, payload }) {
   switch (type) {
@@ -23,10 +24,12 @@ function Task({ task: { task, completed, id } }) {
 
   function handleSave(newTaskValue) {
     if (newTaskValue === '') {
-      alert('cannot be empty');
+      toast.error('cannot be empty');
+
       return;
     }
     dispacth({ type: 'task/edit' });
+    // toast.success('Task edited succesfully');
   }
 
   return (

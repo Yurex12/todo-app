@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
 } from 'react';
+import toast from 'react-hot-toast';
 
 const TodoContext = createContext();
 
@@ -68,8 +69,8 @@ function TodoProvider({ children }) {
   function createTask(e, inputtedValue) {
     e.preventDefault();
 
-    if (inputtedValue.length < 2) {
-      alert('Task must be at least three letters');
+    if (inputtedValue.length < 3) {
+      toast.error('Task must be at least three letters');
       return;
     }
 
@@ -80,10 +81,12 @@ function TodoProvider({ children }) {
     };
 
     dispatch({ type: 'task/create', payload: newTask });
+    toast.success('Task sucessfully Added');
   }
 
   function deleteTask(taskId) {
     dispatch({ type: 'task/delete', payload: taskId });
+    toast.success('Task deleted');
   }
 
   function setSortByValue(e) {
@@ -95,22 +98,24 @@ function TodoProvider({ children }) {
   }
   function handleEditing(taskId, newTaskValue) {
     dispatch({ type: 'task/edit', payload: { taskId, newTaskValue } });
-    console.log(taskId, newTaskValue);
+   // console.log('working');
   }
 
-  const value = useMemo(() => {
-    return {
-      tasks,
-      createTask,
-      deleteTask,
-      sortByValue,
-      setSortByValue,
-      handleCompleted,
-      handleEditing,
-    };
-  }, [sortByValue, tasks]);
-
-  return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
+  return (
+    <TodoContext.Provider
+      value={{
+        tasks,
+        createTask,
+        deleteTask,
+        sortByValue,
+        setSortByValue,
+        handleCompleted,
+        handleEditing,
+      }}
+    >
+      {children}
+    </TodoContext.Provider>
+  );
 }
 
 function useTodos() {
