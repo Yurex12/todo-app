@@ -1,10 +1,4 @@
-import {
-  useContext,
-  createContext,
-  useReducer,
-  useEffect,
-  useMemo,
-} from 'react';
+import { useContext, createContext, useReducer, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const TodoContext = createContext();
@@ -36,6 +30,7 @@ function render(state, { type, payload }) {
 
     case 'tasks/sort':
       return { ...state, sortByValue: payload };
+
     case 'task/completed':
       return {
         ...state,
@@ -66,22 +61,8 @@ function TodoProvider({ children }) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  function createTask(e, inputtedValue) {
-    e.preventDefault();
-
-    if (inputtedValue.length < 3) {
-      toast.error('Task must be at least three letters');
-      return;
-    }
-
-    const newTask = {
-      id: Date.now(),
-      task: inputtedValue,
-      completed: false,
-    };
-
+  function createTask(newTask) {
     dispatch({ type: 'task/create', payload: newTask });
-    toast.success('Task sucessfully Added');
   }
 
   function deleteTask(taskId) {
@@ -89,8 +70,8 @@ function TodoProvider({ children }) {
     toast.success('Task deleted');
   }
 
-  function setSortByValue(e) {
-    dispatch({ type: 'tasks/sort', payload: e.target.value });
+  function setSortByValue(value) {
+    dispatch({ type: 'tasks/sort', payload: value });
   }
 
   function handleCompleted(taskId) {
@@ -98,7 +79,7 @@ function TodoProvider({ children }) {
   }
   function handleEditing(taskId, newTaskValue) {
     dispatch({ type: 'task/edit', payload: { taskId, newTaskValue } });
-   // console.log('working');
+    // console.log('working');
   }
 
   return (
@@ -121,7 +102,7 @@ function TodoProvider({ children }) {
 function useTodos() {
   const context = useContext(TodoContext);
   if (context === undefined)
-    throw new Error('todoContext was used outside of it provider');
+    throw new Error('todoContext was used outside TodoProvider');
   return context;
 }
 

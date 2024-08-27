@@ -2,6 +2,11 @@ import { useTodos } from '../contexts/TodoContext';
 
 function SortBy() {
   const { sortByValue, setSortByValue } = useTodos();
+
+  function handleOption(e) {
+    setSortByValue(e.target.value);
+  }
+
   return (
     <div className='flex gap-x-2 p-2 px-4'>
       <label className='text-md font-semibold text-gray-800'>
@@ -9,7 +14,7 @@ function SortBy() {
         <select
           className='select border text-sm border-gray-400 p-1 rounded-md ml-2 text-gray-600'
           value={sortByValue}
-          onChange={(e) => setSortByValue(e)}
+          onChange={handleOption}
         >
           <option value='modified'>Modified</option>
           <option value='alphabet'>Alphabet</option>

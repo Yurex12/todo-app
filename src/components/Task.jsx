@@ -1,46 +1,46 @@
 import { FaTrashArrowUp, FaPenClip, FaFile } from 'react-icons/fa6';
 import { useTodos } from '../contexts/TodoContext';
-import { useReducer, useRef } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-function reducer(state, { type, payload }) {
-  switch (type) {
-    case 'task/edit':
-      return { ...state, editing: !state.editing };
-    case 'task/newValue':
-      return { ...state, newTaskValue: payload };
-
-    default:
-      break;
-  }
-}
-
-function Task({ task: { task, completed, id } }) {
+function Task({
+  task: { task, completed, id, isEditing },
+  editingTaskId,
+  handleCurrenctlyEditingTask,
+}) {
   const { deleteTask, handleCompleted, handleEditing } = useTodos();
-  const [{ editing, newTaskValue }, dispacth] = useReducer(reducer, {
-    editing: false,
-    newTaskValue: task,
-  });
 
-  function handleSave(newTaskValue) {
+  const [newTaskValue, setNewTaskValue] = useState(task);
+
+  function handleSave() {
     if (newTaskValue === '') {
       toast.error('cannot be empty');
 
       return;
     }
-    dispacth({ type: 'task/edit' });
-    // toast.success('Task edited succesfully');
+    if (newTaskValue.length < 3) {
+      toast.error('Task length must be at least 3 characters');
+
+      return;
+    }
+
+    handleEditing(id, newTaskValue);
+
+    toast.success('Task edited succesfully');
+
+    handleCurrenctlyEditingTask(id);
   }
 
   return (
-    <div className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'>
-      {editing ? (
+    <li
+      className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'
+      onClick={() => handleCompleted(id)}
+    >
+      {editingTaskId === id ? (
         <textarea
           value={newTaskValue}
           className='flex-1 resize-none py-1 capitalize px-2 rounded-sm'
-          onChange={(e) =>
-            dispacth({ type: 'task/newValue', payload: e.target.value })
-          }
+          onChange={(e) => setNewTaskValue(e.target.value)}
         />
       ) : (
         <div className='flex flex-1 items-center space-x-2'>
@@ -48,7 +48,7 @@ function Task({ task: { task, completed, id } }) {
             type='checkbox'
             checked={completed}
             className='rounded-sm'
-            onChange={() => handleCompleted(id)}
+            readOnly
           />
           <p
             className={`flex-1 bg-transparent p-1 capitalize text-gray-900 font-medium whitespace-pre-wrap ${
@@ -60,27 +60,23 @@ function Task({ task: { task, completed, id } }) {
         </div>
       )}
       <div className='flex gap-x-3'>
-        {completed || (
-          <div
-            className='text-slate-700'
-            onClick={() => handleSave(newTaskValue)}
-          >
-            {editing ? (
-              <FaFile
-                className='text-blue-700'
-                onClick={() => handleEditing(id, newTaskValue)}
-              />
-            ) : (
-              <FaPenClip />
-            )}
-          </div>
-        )}
+        <div className='text-slate-700'>
+          {editingTaskId === id ? (
+            <FaFile className='text-blue-700' onClick={handleSave} />
+          ) : (
+            <FaPenClip
+              className='text-slate-700'
+              onClick={() => handleCurrenctlyEditingTask(id)}
+            />
+          )}
+        </div>
+
         <FaTrashArrowUp
           className='text-red-700'
           onClick={() => deleteTask(id)}
         />
       </div>
-    </div>
+    </li>
   );
 }
 
