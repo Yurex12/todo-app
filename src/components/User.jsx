@@ -15,11 +15,11 @@ function User() {
       </div>
 
       <div className='flex-1 flex flex-col'>
-        <p className='font-bold  text-md text-gray-600 flex items-center'>
+        <p className='font-medium  text-lg text-gray-600 flex items-center'>
           <span> Hi,</span>
           <input
             type='text'
-            className='w-32 sm:w-1/2 border-0 placeholder:text-[10px] placeholder:text-gray-300 px-1'
+            className='w-32 sm:w-1/2 focus:border-blue-500 focus:outline-none border-1 focus:border rounded-md placeholder:text-[10px] placeholder:text-gray-300 px-1'
             placeholder='enter your nickname'
             value={name}
             onChange={handleSetName}

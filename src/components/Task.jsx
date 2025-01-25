@@ -33,13 +33,13 @@ function Task({
 
   return (
     <li
-      className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-200  shadow-sm'
+      className='flex items-center space-x-2 p-3 px-5 rounded-xl bg-gray-50 drop-shadow-sm'
       onClick={() => handleCompleted(id)}
     >
       {editingTaskId === id ? (
         <textarea
           value={newTaskValue}
-          className='flex-1 resize-none py-1 capitalize px-2 rounded-sm'
+          className='flex-1 resize-none py-1 focus:outline-none px-2 rounded-sm'
           onChange={(e) => setNewTaskValue(e.target.value)}
         />
       ) : (
@@ -51,7 +51,7 @@ function Task({
             readOnly
           />
           <p
-            className={`flex-1 bg-transparent p-1 capitalize text-gray-900 font-medium whitespace-pre-wrap ${
+            className={`flex-1 bg-transparent p-1 text-gray-700 font-medium whitespace-pre-wrap ${
               completed ? 'line-through' : ''
             }`}
           >

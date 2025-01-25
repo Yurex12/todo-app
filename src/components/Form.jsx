@@ -33,19 +33,17 @@ function Form() {
 
   return (
     <div className='p-2 px-4 bg-white'>
-      <p className='uppercase text-gray-500 font-semibold text-sm'>
-        create a task
-      </p>
-      <form className='py-2 flex gap-x-4 ' onSubmit={handleSubmit}>
+      <p className=' text-gray-700 text-md'>Create a Task</p>
+      <form className='py-1 flex gap-x-4 ' onSubmit={handleSubmit}>
         <input
-          className='w-full rounded-lg py-2 px-2 bg-gray-100 outline-none border-2 border-blue-200 focus:border-blue-700'
-          placeholder='Start Typing...'
+          className='w-full rounded-lg py-1 px-2 bg-gray-100 outline-none border border-blue-200 text-gray-700 placeholder:text-[11px] focus:border-blue-700'
+          placeholder='Start typing...'
           ref={formEl}
           value={inputtedValue}
           required
           onChange={(e) => setInputtedValue(e.target.value)}
         />
-        <button className='w-36 bg-blue-500 text-gray-50 rounded-full p-1'>
+        <button className='w-36 text-[12px] tracking-wide bg-blue-500 text-gray-50 rounded-full p-1'>
           Add Task
         </button>
       </form>

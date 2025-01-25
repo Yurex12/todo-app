@@ -8,11 +8,11 @@ function SortBy() {
   }
 
   return (
-    <div className='flex gap-x-2 p-2 px-4'>
-      <label className='text-md font-semibold text-gray-800'>
+    <div className='flex gap-x-2 py-1 px-4'>
+      <label className='text-lg  text-gray-800'>
         Sort By:
         <select
-          className='select border text-sm border-gray-400 p-1 rounded-md ml-2 text-gray-600'
+          className='select border text-sm border-gray-400 p-1 rounded-md ml-2 text-gray-600 focus:outline-none'
           value={sortByValue}
           onChange={handleOption}
         >
